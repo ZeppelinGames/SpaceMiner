@@ -67,14 +67,6 @@ namespace SpaceMiner
             }
         }
 
-        public static void DrawSprite(int x, int y, GameObject spr)
-        {
-            for(int i=0; i < spr.spr.spritePixels.Length; i++)
-            {
-                DrawRect(spr.spr.spritePixels[i].position + spr.position, Vector2.One * _pixelScale, spr.spr.spritePixels[i].color);
-            }
-        }
-
         public static void SetPixel(int x, int y, Color c)
         {
             int pos = x + (y * _windowWidth);
@@ -122,6 +114,28 @@ namespace SpaceMiner
         public static void DrawRectOutline(Vector2 pos, Vector2 size, Color c)
         {
             DrawRectOutline((int)pos.X, (int)pos.Y, (int)size.X, (int)size.Y, c);
+        }
+
+        public static void DrawSprite(Sprite spr, Vector2 position, float scale = 1, float rotation = 0)
+        {
+            Vector2 sprCenter = (spr.GetSpriteCenter() *scale);
+            for (int i = 0; i < spr.spritePixels.Length; i++)
+            {
+                //Get rotated position
+                Vector2 pixelPos =spr.spritePixels[i].position * scale;
+
+                float dist = (int)(Vector2.Distance(sprCenter, (spr.spritePixels[i].position * scale)) / scale) * scale;
+                float angle = HelperFuncs.GetAngle(sprCenter, pixelPos);
+
+                float rotAngle = MathF.Round(rotation).degreesToRadians() + angle;
+
+                Vector2 drawPos = new Vector2(
+                    MathF.Cos(rotAngle) * dist + (sprCenter.X + position.X),
+                    MathF.Sin(rotAngle) * dist + (sprCenter.Y + position.Y));
+
+                Vector2 roundedPos = new Vector2((int)(drawPos.X / scale) * scale, (int)(drawPos.Y / scale) * scale);
+                Renderer.DrawRect(roundedPos, new Vector2(scale, scale), spr.spritePixels[i].color);
+            }
         }
     }
 }

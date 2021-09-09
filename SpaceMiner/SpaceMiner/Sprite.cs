@@ -8,13 +8,13 @@ namespace SpaceMiner
 {
     public class Sprite
     {
+        public Pixel[] spritePixels;
+        public Color[] spriteIndexedColours;
+
         private static Color nullColor = new Color(255, 0, 255);
         private static Color[] defaultColourPalette = new Color[] {
             new Color(255,0,255) //Null colour
         };
-
-        public Pixel[] spritePixels;
-        public Color[] spriteIndexedColours;
 
         public static Sprite LoadSprite(Texture2D sprTexture)
         {
