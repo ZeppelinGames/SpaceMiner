@@ -30,6 +30,13 @@ namespace SpaceMiner
             this.spr = spr;
         }
 
+        public void SetTransforms(Vector2 position, float scale, float rotation)
+        {
+            this.position = position;
+            this.scale = scale;
+            this.rotation = rotation;
+        }
+
         public void Draw()
         {
             Renderer.DrawSprite(this.spr, this.position, this.scale, this.rotation);
